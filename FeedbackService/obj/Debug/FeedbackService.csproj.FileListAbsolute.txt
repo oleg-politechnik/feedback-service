@@ -5,3 +5,10 @@ C:\Users\Oleg\Documents\Projects\feedback\Feedback\Feedback\bin\EntityFramework.
 C:\Users\Oleg\Documents\Projects\feedback\Feedback\Feedback\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Oleg\Documents\Projects\feedback\Feedback\Feedback\obj\Debug\Feedback.dll
 C:\Users\Oleg\Documents\Projects\feedback\Feedback\Feedback\obj\Debug\Feedback.pdb
+C:\Users\Oleg\Documents\Projects\feedback-service\FeedbackService\bin\Feedback.dll
+C:\Users\Oleg\Documents\Projects\feedback-service\FeedbackService\bin\Feedback.pdb
+C:\Users\Oleg\Documents\Projects\feedback-service\FeedbackService\bin\EntityFramework.dll
+C:\Users\Oleg\Documents\Projects\feedback-service\FeedbackService\bin\EntityFramework.xml
+C:\Users\Oleg\Documents\Projects\feedback-service\FeedbackService\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Oleg\Documents\Projects\feedback-service\FeedbackService\obj\Debug\Feedback.dll
+C:\Users\Oleg\Documents\Projects\feedback-service\FeedbackService\obj\Debug\Feedback.pdb
