@@ -1,0 +1,11 @@
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\FeedbackService.Tests.dll
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\FeedbackService.Tests.pdb
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\Feedback.dll
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\nunit.framework.dll
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\nunit.mocks.dll
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\pnunit.framework.dll
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\Feedback.pdb
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\nunit.framework.xml
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\obj\Debug\FeedbackService.Tests.dll
+C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\obj\Debug\FeedbackService.Tests.pdb
