@@ -1,0 +1,70 @@
+﻿@model FeedbackService.Models.Feedback
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Feedback</legend>
+
+    <div class="display-label">Site</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Site.Url)
+    </div>
+
+    <div class="display-label">Estimation</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Estimation.Title)
+    </div>
+
+    <div class="display-label">Message</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Message)
+    </div>
+
+    <div class="display-label">NumRatesUp</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NumRatesUp)
+    </div>
+
+    <div class="display-label">NumRatesDown</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NumRatesDown)
+    </div>
+
+    <div class="display-label">FeedbackQuality</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FeedbackQuality)
+    </div>
+
+    <div class="display-label">Title</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">Description</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">Address</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address)
+    </div>
+
+    <div class="display-label">Country</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Country)
+    </div>
+
+    <div class="display-label">ContactPhone</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContactPhone)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.FeedbackId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

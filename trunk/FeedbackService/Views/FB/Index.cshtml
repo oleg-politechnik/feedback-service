@@ -1,0 +1,93 @@
+﻿@model IEnumerable<FeedbackService.Models.Feedback>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Site
+        </th>
+        <th>
+            Estimation
+        </th>
+        <th>
+            Message
+        </th>
+        <th>
+            NumRatesUp
+        </th>
+        <th>
+            NumRatesDown
+        </th>
+        <th>
+            FeedbackQuality
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Country
+        </th>
+        <th>
+            ContactPhone
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Site.Url)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estimation.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumRatesUp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumRatesDown)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeedbackQuality)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactPhone)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.FeedbackId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.FeedbackId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.FeedbackId })
+        </td>
+    </tr>
+}
+
+</table>
