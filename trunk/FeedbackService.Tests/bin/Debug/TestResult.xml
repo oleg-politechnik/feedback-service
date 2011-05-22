@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\FeedbackService.Tests.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2011-05-21" time="22:43:20">
+  <environment nunit-version="2.5.10.11092" clr-version="2.0.50727.5444" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug" machine-name="DARKSTAR" user="Oleg" user-domain="DARKSTAR" />
+  <culture-info current-culture="ru-RU" current-uiculture="ru-RU" />
+  <test-suite type="Assembly" name="C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Debug\FeedbackService.Tests.dll" executed="True" result="Success" success="True" time="2.344" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="FeedbackService" executed="True" result="Success" success="True" time="2.333" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="2.333" asserts="0">
+            <results>
+              <test-suite type="TestFixture" name="HomeControllerIndexTests" executed="True" result="Success" success="True" time="2.331" asserts="0">
+                <results>
+                  <test-case name="FeedbackService.Tests.HomeControllerIndexTests.Puts_Message_In_ViewBag" executed="True" result="Success" success="True" time="2.298" asserts="1" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

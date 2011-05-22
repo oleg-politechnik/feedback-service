@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Feedback.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="FeedbackModelsStoreContainer">
+    <EntitySet Name="ClientFeedback" EntityType="Feedback.Models.Store.ClientFeedback" store:Type="Tables" store:Schema="dbo" store:Name="ClientFeedback">
+      <DefiningQuery>SELECT 
+      [ClientFeedback].[ClientSite] AS [ClientSite], 
+      [ClientFeedback].[FeedbackId] AS [FeedbackId]
+      FROM [dbo].[ClientFeedback] AS [ClientFeedback]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Clients" EntityType="Feedback.Models.Store.Clients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Feedbacks" EntityType="Feedback.Models.Store.Feedbacks" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ClientFeedback_Feedbacks" Association="Feedback.Models.Store.FK_ClientFeedback_Feedbacks">
+      <End Role="Clients" EntitySet="Clients" />
+      <End Role="ClientFeedback" EntitySet="ClientFeedback" />
+    </AssociationSet>
+  </EntityContainer>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'C:\USERS\OLEG\DOCUMENTS\PROJECTS\FEEDBACK\FEEDBACK\FEEDBACK\APP_DATA\DATABASE.MDF.dbo.ClientFeedback' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="ClientFeedback">
+    <Key>
+      <PropertyRef Name="ClientSite" />
+      <PropertyRef Name="FeedbackId" />
+    </Key>
+    <Property Name="ClientSite" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="FeedbackId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="Site" />
+    </Key>
+    <Property Name="Site" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Feedbacks">
+    <Key>
+      <PropertyRef Name="FeedbackId" />
+    </Key>
+    <Property Name="FeedbackId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Message" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <Association Name="FK_ClientFeedback_Feedbacks">
+    <End Role="Clients" Type="Feedback.Models.Store.Clients" Multiplicity="1" />
+    <End Role="ClientFeedback" Type="Feedback.Models.Store.ClientFeedback" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Clients">
+        <PropertyRef Name="Site" />
+      </Principal>
+      <Dependent Role="ClientFeedback">
+        <PropertyRef Name="ClientSite" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
