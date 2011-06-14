@@ -1,0 +1,59 @@
+﻿@model FeedbackService.Models.Feedback
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Feedback</legend>
+
+        @Html.HiddenFor(model => model.FeedbackId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SiteId, "Site")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("SiteId", String.Empty)
+            @Html.ValidationMessageFor(model => model.SiteId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Proposed)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Proposed)
+            @Html.ValidationMessageFor(model => model.Proposed)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Message)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Message)
+            @Html.ValidationMessageFor(model => model.Message)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.NumberRatesUp)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.NumberRatesUp)
+            @Html.ValidationMessageFor(model => model.NumberRatesUp)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

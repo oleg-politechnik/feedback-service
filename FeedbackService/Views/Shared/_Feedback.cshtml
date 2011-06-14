@@ -1,0 +1,12 @@
+﻿@model FeedbackService.Models.Feedback
+
+<div class="singleFeedback">
+<h4>@Model.Site.Url</h4>
+<span> Rating: @Model.NumberRatesUp</span>
+<p>
+    <span>@Model.Message</span>
+    <span class="right">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FeedbackId })
+    </span>
+</p>
+</div>

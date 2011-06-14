@@ -1,0 +1,38 @@
+﻿@model IEnumerable<FeedbackService.Models.Site>
+           
+@{
+    ViewBag.Title = "Feedback Service - Наши проекты";
+}
+
+@ViewBag.Message
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            Url
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+@*        <td>
+            @
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>*@
+        <td>
+            @Html.ActionLink(item.Url, "Details", new { id=item.SiteId }) |
+            @Html.ActionLink("Edit", "Edit", new { id=item.SiteId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SiteId })
+        </td>
+    </tr>
+}
+
+</table>

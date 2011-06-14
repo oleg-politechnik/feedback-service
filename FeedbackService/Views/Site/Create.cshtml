@@ -1,0 +1,27 @@
+﻿@model FeedbackService.Models.Site
+
+@{
+    ViewBag.Title = "Добавить сайт";
+}
+
+<h2>Добавить сайт</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Сайт</legend>
+
+        @Html.EditorForModel()
+
+        <p>
+            <input type="submit" value="Создать" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Вернуться к списку сайтов", "Index")
+</div>
