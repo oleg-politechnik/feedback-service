@@ -9,6 +9,7 @@ using FeedbackService.Models;
 
 namespace FeedbackService.Controllers
 {
+    //[RequireHttps]
     public class AccountController : Controller
     {
 
@@ -43,7 +44,7 @@ namespace FeedbackService.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    ModelState.AddModelError("", "Пользователя с таким паролем не существует.");
                 }
             }
 
@@ -79,12 +80,24 @@ namespace FeedbackService.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
+                MembershipUser user = 
+                    Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
+
+                    FeedbackServiceContext context = new FeedbackServiceContext();
+                    context.Clients.Add(new Client
+                    {
+                        ClientId = new Guid(user.ProviderUserKey.ToString()),
+                        ClientName = model.UserName,
+                        Email = model.Email,
+                        Phone = model.Phone
+                    });
+                    context.SaveChanges();
+
+                    return RedirectToAction("Start");
                 }
                 else
                 {
@@ -150,6 +163,13 @@ namespace FeedbackService.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult Start()
+        {
+            return View();
+        }
+
+
         #region Status Codes
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
@@ -158,7 +178,7 @@ namespace FeedbackService.Controllers
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
+                    return "Пользователь с таким именем уже есть.";
 
                 case MembershipCreateStatus.DuplicateEmail:
                     return "A user name for that e-mail address already exists. Please enter a different e-mail address.";

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<FeedbackService.Models.Feedback>
+
+<table id="searchResults">
+    <tr>
+        <th>
+            Site
+        </th>
+        <th>
+            EvaluationId
+        </th>
+        <th>
+            Proposed
+        </th>
+        <th>
+            Message
+        </th>
+        <th>
+            NumberRatesUp
+        </th>
+        <th>
+            NumberRatesDown
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Site.Url)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EvaluationId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Proposed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberRatesUp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberRatesDown)
+        </td>
+    </tr>
+}

@@ -1,8 +1,16 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Index";
 }
 
-<h2>@ViewBag.Message</h2>
+<h2>Добро пожаловать</h2>
+
 <p>
-    To learn more about ASP.NET MVC visit <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
+    Этот проект специализируется на предоставлении услуг по обратной связи пользователей
+@if(Request.IsAuthenticated) {
+    @Html.ActionLink("ваших сайтов", "Index", "Site")<text>.</text>
+}
+else
+{
+    <text>ваших сайтов.</text>
+}
 </p>

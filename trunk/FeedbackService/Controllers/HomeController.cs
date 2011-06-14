@@ -8,16 +8,15 @@ namespace FeedbackService.Controllers
 {
     public class HomeController : Controller
     {
-        public ViewResult Index()
+        //
+        // GET: /Home/
+
+        public ActionResult Index()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
+            //HttpRequestBase req = HttpContext.Request.Url.Host;
 
             return View();
         }
 
-        public ActionResult About()
-        {
-            return View();
-        }
     }
 }
