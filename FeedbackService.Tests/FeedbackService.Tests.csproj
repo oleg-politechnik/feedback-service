@@ -60,8 +60,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Feedback\FeedbackService.csproj">
-      <Project>{DE6B16F4-C6CD-44E3-8EDB-3EFA983FD1EC}</Project>
+    <ProjectReference Include="..\FeedbackService\FeedbackService.csproj">
+      <Project>{5B68F936-3B2E-4162-BCB1-8BF178CF2E35}</Project>
       <Name>FeedbackService</Name>
     </ProjectReference>
   </ItemGroup>

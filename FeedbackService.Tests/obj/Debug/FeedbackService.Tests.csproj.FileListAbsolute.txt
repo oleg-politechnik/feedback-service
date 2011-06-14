@@ -9,3 +9,13 @@ C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\bin\Deb
 C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\obj\Debug\FeedbackService.Tests.dll
 C:\Users\Oleg\Documents\Projects\feedback\Feedback\FeedbackService.Tests\obj\Debug\FeedbackService.Tests.pdb
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\obj\Debug\FeedbackService.Tests.dll
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\bin\Debug\FeedbackService.Tests.dll
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\bin\Debug\FeedbackService.Tests.pdb
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\bin\Debug\FeedbackService.dll
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\bin\Debug\EntityFramework.dll
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\bin\Debug\FeedbackService.pdb
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\bin\Debug\nunit.framework.xml
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\bin\Debug\EntityFramework.xml
+C:\Users\Oleg\Documents\Projects\FeedbackService\FeedbackService.Tests\obj\Debug\FeedbackService.Tests.pdb
