@@ -1,7 +1,8 @@
 ﻿@model FeedbackService.Models.RegisterModel
+@using Recaptcha
 
 @{
-    ViewBag.Title = "Регистрация";
+    ViewBag.Title = "Feedback Service - Регистрация";
 }
 
 <h2>Регистрация нового пользователя</h2>
@@ -56,6 +57,14 @@
             <div class="editor-field">
                 @Html.PasswordFor(m => m.ConfirmPassword)
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
+            </div>
+
+            <div class="editor-label">
+                <label for="recaptcha_response_field">Введите слова на картинке</label>
+            </div>
+            <div class="editor-field">
+                @Html.Raw(Html.GenerateCaptcha())
+                @Html.ValidationMessage("Captcha")
             </div>
 
             <p>

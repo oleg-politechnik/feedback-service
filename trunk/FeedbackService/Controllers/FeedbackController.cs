@@ -34,19 +34,30 @@ namespace FeedbackService.Controllers
         public ViewResult Details(Guid id)
         {
             Feedback feedback = db.Feedbacks.Find(id);
-            return View(feedback);
+            if (feedback == null)
+                throw new HttpException(404, "Такого отзыва нет");
+
+            return View(feedback.SetOwnerFlag());
         }
 
         //
         // GET: /Feedback/Create
 
-        public ActionResult Create(Guid id)
+        public ActionResult Create(Guid id, string ReturnUrl)
         {
-
+            Site site = db.Sites.Find(id);
+            if (site == null)
+                throw new HttpException(404, "Такого сайта нет");
 
             Feedback feedback = new Feedback();
             feedback.SiteId = id;
-            feedback.Types = db.FeedbackTypes;
+            feedback.SiteUrl = site.Url;
+            //db.FeedbackTypes.Load();
+            feedback.AllFeedbackTypes = db.FeedbackTypes;
+
+            if (HttpContext.Request.IsAjaxRequest())
+                return View("Create_Ajax", feedback);
+
             return View(feedback);
         }
         
@@ -69,7 +80,7 @@ namespace FeedbackService.Controllers
         // POST: /Feedback/Create
 
         [HttpPost]
-        public ActionResult Create(Feedback feedback)
+        public ActionResult Create(Feedback feedback, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -78,17 +89,38 @@ namespace FeedbackService.Controllers
 
                 db.Sites.Single(s => s.SiteId == feedback.SiteId).Feedbacks.Add(feedback);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Site", new { id=feedback.SiteId });  
+                if (ReturnUrl != null)
+                    return Redirect(ReturnUrl);
+                else
+                    return RedirectToAction("Details", "Site", new { id=feedback.SiteId });  
             }
 
-            ViewBag.SiteId = new SelectList(db.Sites, "SiteId", "Url", feedback.SiteId);
-            return View(feedback);
+            Site site = db.Sites.Find(feedback.SiteId);
+            if (site == null)
+                throw new HttpException(404, "Такого сайта нет");
+
+            feedback.AllFeedbackTypes = db.FeedbackTypes;
+
+            if (HttpContext.Request.IsAjaxRequest())
+                return View("Create_Ajax", feedback);
+
+            return View(feedback.SetOwnerFlag());
         }
 
-        [HttpPost]
-        public ActionResult Vote(Guid id)
+        public ActionResult Vote(Guid id, bool isUp, string returnUrl)
         {
-            //HttpContext.Request.UserHostAddress
+            if (db.VoteForFeedback(db.Feedbacks.Find(id), HttpContext.Request.Url.Host))
+            {
+                ViewBag.Message = "Спасибо за ваш голос";
+            }
+            else
+            {
+                ViewBag.Message = "Мы отозвали ваш голос";
+            }
+            db.SaveChanges();
+
+            ViewBag.ReturnUrl = returnUrl;
+
             return View();
         }
         
@@ -145,40 +177,40 @@ namespace FeedbackService.Controllers
             base.Dispose(disposing);
         }
 
-        public PartialViewResult TopFeedbacks()
-        {
-            Thread.Sleep(2000);
-            var feedbacks = db.Feedbacks.TopByRating(1).Single();
-            return PartialView("_Feedback", feedbacks);
-        }
+        //public PartialViewResult TopFeedbacks()
+        //{
+        //    Thread.Sleep(2000);
+        //    var feedbacks = db.Feedbacks.TopByRating(1).Single();
+        //    return PartialView("_Feedback", feedbacks);
+        //}
 
-        public PartialViewResult Search(string q)
-        {
-            var feedbacks = db.Feedbacks
-                .Where(r => r.Message.Contains(q) || String.IsNullOrEmpty(q))
-                .Take(10);
-            return PartialView("_FeedbackSearchResults", feedbacks);
-        }
+    //    public PartialViewResult Search(string q)
+    //    {
+    //        var feedbacks = db.Feedbacks
+    //            .Where(r => r.Message.Contains(q) || String.IsNullOrEmpty(q))
+    //            .Take(10);
+    //        return PartialView("_FeedbackSearchResults", feedbacks);
+    //    }
 
-        public ActionResult QuickSearch(string term)
-        {
-            var feedbacks = db.Feedbacks
-    .Where(r => r.Message.Contains(term) || String.IsNullOrEmpty(term))
-    .Take(10)
-    .Select(r => new { label = r.Message });
+    //    public ActionResult QuickSearch(string term)
+    //    {
+    //        var feedbacks = db.Feedbacks
+    //.Where(r => r.Message.Contains(term) || String.IsNullOrEmpty(term))
+    //.Take(10)
+    //.Select(r => new { label = r.Message });
 
-            return Json(feedbacks, JsonRequestBehavior.AllowGet);
-        }
+    //        return Json(feedbacks, JsonRequestBehavior.AllowGet);
+    //    }
 
-        public ActionResult JsonSearch(string q)
-        {
-            var feedbacks = db.Feedbacks
-    .Where(r => r.Message.Contains(q) || String.IsNullOrEmpty(q))
-    .Take(10)
-    .Select(r => new { r.Message });
+    //    public ActionResult JsonSearch(string q)
+    //    {
+    //        var feedbacks = db.Feedbacks
+    //.Where(r => r.Message.Contains(q) || String.IsNullOrEmpty(q))
+    //.Take(10)
+    //.Select(r => new { r.Message });
 
-            return Json(feedbacks, JsonRequestBehavior.AllowGet);
-        }
+    //        return Json(feedbacks, JsonRequestBehavior.AllowGet);
+    //    }
 
 
     }

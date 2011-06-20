@@ -25,8 +25,15 @@ namespace FeedbackService
     {
         public static Guid UserGuid()
         {
+            MembershipUser user = Membership.GetUser();
+            if (user == null)
+                return new Guid("00000000-0000-0000-0000-000000000000");
+
             return new Guid(Membership.GetUser().ProviderUserKey.ToString());
         }
+
+        public static string CaptchaPublicKey = "6LfmOMUSAAAAAKld6kjnViZMtF-2qWrb_SO5-pDa";
+        public static string CaptchaPrivateKey = "6LfmOMUSAAAAAABR2AqhSikXKQhpUU81tfma6hE1";
     }
 
     public class MvcApplication : System.Web.HttpApplication
@@ -40,23 +47,23 @@ namespace FeedbackService
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-    //        routes.MapRoute(
-    //"SiteDetails", // Route name
-    //"Site/{name}", // URL with parameters
-    //new { controller = "Site", action = "Details" } // Parameter defaults
-    //);
+            //        routes.MapRoute(
+            //"SiteDetails", // Route name
+            //"Site/{name}", // URL with parameters
+            //new { controller = "Site", action = "Details" } // Parameter defaults
+            //);
 
-    //        routes.MapRoute(
-    //            "SiteDetails", // Route name
-    //            "Site/{name}", // URL with parameters
-    //            new { controller = "Site", action = "Details" } // Parameter defaults
-    //            );
+            //        routes.MapRoute(
+            //            "SiteDetails", // Route name
+            //            "Site/{name}", // URL with parameters
+            //            new { controller = "Site", action = "Details" } // Parameter defaults
+            //            );
 
-    //        routes.MapRoute(
-    //            "CreateFeedback", // Route name
-    //            "Site/{name}/CreateFeedback", // URL with parameters
-    //            new { controller = "Feedback", action = "Create" } // Parameter defaults
-    //            );
+            //routes.MapRoute(
+            //    "Vote", // Route name
+            //    "Feedback/{action}/{id}/Vote", // URL with parameters
+            //    new { controller = "Feedback", action = "Vote" } // Parameter defaults
+            //    );
 
             routes.MapRoute(
                 "Default", // Route name
@@ -69,6 +76,8 @@ namespace FeedbackService
         {
             Database.SetInitializer(new FeedbackServiceContextInitializer());
 
+            Recaptcha.RecaptchaControlMvc.PrivateKey = Helper.CaptchaPrivateKey;
+            Recaptcha.RecaptchaControlMvc.PublicKey = Helper.CaptchaPublicKey;
 
             //Database.SetInitializer(new CreateDatabaseIfNotExists<FeedbackServiceContext>());
 
@@ -94,10 +103,6 @@ namespace FeedbackService
                     Email = user.Email
                 });
             }
-
-            context.FeedbackTypes.Add(new FeedbackType { TypeName = "Пожелание" });
-            context.FeedbackTypes.Add(new FeedbackType { TypeName = "Вопрос" });
-            context.FeedbackTypes.Add(new FeedbackType { TypeName = "Отчет об ошибке" });
             context.SaveChanges();
         }
     }

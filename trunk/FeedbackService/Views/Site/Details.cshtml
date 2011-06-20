@@ -1,62 +1,59 @@
 ﻿@model FeedbackService.Models.Site
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Отзывы для " + Model.Url;
 }
-
-<h2>Details</h2>
+@*<p>
+    @Html.ActionLink("Назад к списку сайтов", "Index")
+</p>*@
+<h2>@ViewBag.Title</h2>
 
 <fieldset>
-    <legend>Site</legend>
-
-    <div class="display-label">Url</div>
+    <legend>@Model.Url</legend>
     <div class="display-field">
-        <a>@Html.DisplayFor(model => model.Url)</a>
+        @Html.DisplayFor(modelItem => Model.Description)
     </div>
-
-    @*<div class="display-label">Name</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>*@
-
-    <div class="display-label">Description</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
-    </div>
+    @if (Model.isCurrentUserOwner)
+    {
+        @Html.ActionLink("Встроить код в свой сайт", "Embed", new { id = Model.SiteId }); <text> | </text>
+        @Html.ActionLink("Редактировать", "Edit", new { id = Model.SiteId }); <text> | </text>
+        @Html.ActionLink("Удалить", "Delete", new { id = Model.SiteId });
+    }
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.SiteId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-
-<p>
-    @Html.ActionLink("Добавить отзыв", "Create", "Feedback", new { id=Model.SiteId }, null)
+    @Html.ActionLink("Добавить отзыв", "Create", "Feedback", new { id = Model.SiteId }, null)
 </p>
 <table>
     <tr>
         <th>
-            Message
+            Рейтинг
         </th>
-        <th>
-            Email
+        <th style="width: 100%">
+            Текст
         </th>
-        <th></th>
     </tr>
+    @foreach (var item in Model.Feedbacks)
+    {
+        <tr>
+            <td>
+                <strong>@Html.DisplayFor(modelItem => item.Rating) </strong>
+                (@Html.ActionLink("+", "Vote", "Feedback", new { id = item.FeedbackId, isUp = true, returnUrl = Request.Url }, null))
+            </td>
+            <td>
+                <div>
+                @Html.ActionLink(item.Title, "Details", "Feedback", new { id = item.FeedbackId }, null)
+                </div>
+                <div>
+                @Html.DisplayFor(modelItem => item.Message)
+                </div>
 
-@foreach (var item in Model.Feedbacks) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Message)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", "Feedback", new { id=item.FeedbackId }, null) |
-            @Html.ActionLink("Details", "Details", "Feedback", new { id = item.FeedbackId }, null) |
-            @Html.ActionLink("Delete", "Delete", "Feedback", new { id = item.FeedbackId }, null)
-        </td>
-    </tr>
-}
-
+                <div>
+                @Html.DisplayFor(modelItem => item.Proposed) 
+                @if (Model.isCurrentUserOwner)
+                {
+                    <text> | </text> @Html.ActionLink("Править", "Edit", "Feedback", new { id = item.FeedbackId }, null)
+                }
+                </div>
+            </td>
+        </tr>
+    }
 </table>

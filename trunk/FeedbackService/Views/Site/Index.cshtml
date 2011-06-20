@@ -1,38 +1,24 @@
 ﻿@model IEnumerable<FeedbackService.Models.Site>
-           
-@{
-    ViewBag.Title = "Feedback Service - Наши проекты";
-}
-
-@ViewBag.Message
-
+<h2>@ViewBag.Title</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Создать новый", "Create")
 </p>
-<table>
-    <tr>
-        <th>
-            Url
-        </th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-@*        <td>
-            @
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
+@foreach (var item in Model)
+{
+    <fieldset>
+        <legend>@item.Url</legend>
+        <div class="display-field">
             @Html.DisplayFor(modelItem => item.Description)
-        </td>*@
-        <td>
-            @Html.ActionLink(item.Url, "Details", new { id=item.SiteId }) |
-            @Html.ActionLink("Edit", "Edit", new { id=item.SiteId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SiteId })
-        </td>
-    </tr>
+        </div>
+        <div class="display-label">@Html.ActionLink("Отзывы", "Details", new { id = item.SiteId })
+            @if (item.isCurrentUserOwner)
+            {
+                <text> | </text>
+                @Html.ActionLink("Встроить код в свой сайт", "Embed", new { id = item.SiteId }); <text>
+                | </text>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.SiteId }); <text> | </text>
+                @Html.ActionLink("Удалить", "Delete", new { id = item.SiteId });
+            }
+        </div>
+    </fieldset>
 }
-
-</table>

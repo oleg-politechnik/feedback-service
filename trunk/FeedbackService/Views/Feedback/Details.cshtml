@@ -1,25 +1,61 @@
 ﻿@model FeedbackService.Models.Feedback
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.FeedbackType.TypeName + " для " + Model.Site.Url;
+    ViewBag.Rss = "<link rel='canonical' href=" + @Url.Action("Feedback", "Feed", new { id = Model.FeedbackId }) + ">" + "<link rel='alternate' type='application/atom+xml' title='Feed for question' href=" + "/feed/feedback/" + Model.FeedbackId + ">";
 }
-
-<h2>Details</h2>
-
+<h2>
+    @ViewBag.Title</h2>
+<div style="text-align: right">
+    @Html.ActionLink("Подписаться на комментарии по RSS", "Feedback", "Feed", new { id = Model.FeedbackId }, null)
+</div>
 <fieldset>
-    <legend>Feedback</legend>
-
-    <div class="display-label">Message</div>
+    <legend>@Html.DisplayFor(model => model.FeedbackType.TypeName)</legend>
+    <div class="display-label">
+        @Html.LabelFor(model => model.Rating)</div>
+    <div class="display-field">
+        <strong>@Html.DisplayFor(model => model.Rating) </strong>(@Html.ActionLink("+", "Vote", "Feedback", new { id = Model.FeedbackId, isUp = true, returnUrl = Request.Url }, null))
+    </div>
+    <div class="display-label">
+        @Html.LabelFor(model => model.Title)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+    <div class="display-label">
+        @Html.LabelFor(model => model.Message)</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Message)
     </div>
-
-    <div class="display-label">Email</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Email)
-    </div>
 </fieldset>
+<div>
+    @Html.DisplayFor(modelItem => Model.Proposed) |
+    @Html.ActionLink("Все отзывы для этого сайта", "Details", "Site", new { id = Model.SiteId }, null)
+    @if (Model.isCurrentUserOwner)
+    {
+        <text> | </text> @Html.ActionLink("Править", "Edit", "Feedback", new { id = Model.FeedbackId }, null)
+    }
+</div>
+<h2>
+    Комментарии</h2>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.FeedbackId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Комментировать", "Create", "Comment", new { id = Model.FeedbackId }, null)
 </p>
+@foreach (var item in Model.Comments)
+{
+    <hr />
+    
+    if (Model.Site.ClientId == item.ClientIdRef)
+    {
+    <strong>Официальный ответ</strong>
+    }
+    <p>
+        @Html.DisplayFor(modelItem => item.Message)
+    </p>
+    <div>
+        @item.Timestamp |
+        @Html.ActionLink("Ответить", "Create", "Comment", new { id = Model.FeedbackId, replyId = item.CommentId }, null)
+        @if (Model.isCurrentUserOwner)
+        { <text> | </text>
+            @Html.ActionLink("Удалить", "Delete", "Comment", new { id = item.CommentId })
+        }
+    </div>
+}

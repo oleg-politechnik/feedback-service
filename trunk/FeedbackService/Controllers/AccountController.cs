@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using FeedbackService.Models;
+using FeedbackService.Helpers;
 
 namespace FeedbackService.Controllers
 {
@@ -39,7 +40,7 @@ namespace FeedbackService.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index");
                     }
                 }
                 else
@@ -73,6 +74,7 @@ namespace FeedbackService.Controllers
         //
         // POST: /Account/Register
 
+        [CaptchaValidator]
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
@@ -97,7 +99,7 @@ namespace FeedbackService.Controllers
                     });
                     context.SaveChanges();
 
-                    return RedirectToAction("Start");
+                    return View("Start");
                 }
                 else
                 {
@@ -164,11 +166,10 @@ namespace FeedbackService.Controllers
         }
 
         [Authorize]
-        public ActionResult Start()
+        public ActionResult Index()
         {
             return View();
         }
-
 
         #region Status Codes
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
@@ -178,13 +179,13 @@ namespace FeedbackService.Controllers
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "Пользователь с таким именем уже есть.";
+                    return "Пользователь с таким именем и паролем уже есть уже есть. Пожалуйста, придумайте другой логин.";
 
                 case MembershipCreateStatus.DuplicateEmail:
                     return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
 
                 case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
+                    return "Неверный пароль.";
 
                 case MembershipCreateStatus.InvalidEmail:
                     return "The e-mail address provided is invalid. Please check the value and try again.";

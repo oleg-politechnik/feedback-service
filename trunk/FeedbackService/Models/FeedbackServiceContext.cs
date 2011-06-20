@@ -1,5 +1,9 @@
 ﻿using System.Data.Entity;
-//using FeedbackService.Queries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using FeedbackService.Models;
 
 namespace FeedbackService.Models
 {
@@ -19,11 +23,43 @@ namespace FeedbackService.Models
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<FeedbackType> FeedbackTypes { get; set; }
         public DbSet<FeedbackVote> FeedbackVotes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+
+        public bool VoteForFeedback(Feedback feedback, string ip)
+        {
+            IEnumerable<FeedbackVote> votes = feedback.Votes.Where(v => v.IpAddress == ip);
+            if (votes.Count() == 0)
+            {
+                feedback.Votes.Add(new FeedbackVote { IpAddress = ip });
+                //if (IsUp)
+                    feedback.Rating++;
+                //else
+                //    feedback.Rating--;
+                return true;
+            }
+            else// if (votes.First().IsUp == IsUp)
+            {
+                this.FeedbackVotes.Remove(votes.First());
+                //if (IsUp)
+                    feedback.Rating--;
+                //else
+                //    feedback.Rating++;
+                return false;
+            }
+        }
 
         //public Client CurrentClient() { return Clients.ClientForCurrentUser(); }
 
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<FeedbackTypeProxy>().HasKey(fs => new { fs.SiteId, fs.FeedbackTypeId });
+        //}
 
-        /*
+        /*   1. 
+   2.   ) { 
+   3.   .Entity<ConferenceTrack>().HasKey(
+   4.     ct => ct.TrackId); 
+   5. }
          
     public class StoreRepository
     {

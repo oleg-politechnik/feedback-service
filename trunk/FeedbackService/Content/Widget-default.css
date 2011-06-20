@@ -12,9 +12,9 @@
     z-index: 999;
 }
 
-#feedback-overlay .visible
+.feedback-error
 {
-    display: block;
+    color: red;
 }
 
 #feedback-widget
@@ -22,16 +22,46 @@
     background: #FFF;
     opacity: 1.0;
     
-
+    
     width: 410px;
     height: auto;
     z-index: 1000;
-    margin: 0 auto;
-    margin-top: 100px;
-    -moz-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+
+    -moz-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    
+    padding: 2em;
+    position: absolute; /*fixed*/
+    top: 100px;
+    margin-left:30%;
+    
+    
+   
+    display: none;
+
+
+    overflow: auto;
 }
 
-body.feedback-page
+#feedback-page
 {
-    /*position: fixed;*/
+    float: right;
+}
+
+#feedback-badge {
+background: url('images/feedback_badge.png') no-repeat;
+width:62px;
+height: 124px;
+margin-left:-25px;
+}
+
+#feedback-badge:hover {
+margin-left:-23px;
+}
+
+#feedback-badge:active {
+margin-left:-27px;
+}
+
+#feedback-badge span {
+display: none;
 }

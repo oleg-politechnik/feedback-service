@@ -7,30 +7,24 @@ $(document).ready(function () {
     /**
     * Set up feedback box on left side
     */
-    $('#feedback-badge').feedbackBadge({
+    $('#feedback-link').attr("id", "feedback-badge");
+    $('#feedback-badge').empty().hide()
+    //    .href("#")
+    .feedbackBadge({
         css3Safe: $.browser.safari ? true : false, //this trick prevents old safari browser versions to scroll properly
         onClick: function () {
-
             return false;
         }
     });
 
+    $('body').append("<div id='feedback-overlay'></div>");
+    $('body').append("<div id='feedback-widget'><a href='#' id='feedback-widget-close' style='float: right;'>Закрыть</a><div id='feedback-widget-contents'></div></div>");
+    $("#feedback-widget-contents").append("<img src=/Content/images/20-0.gif>");
     var speed = 200;
     var overlay = $("#feedback-overlay");
-    //overlay.hide();
-    //    $(".feedback-widget").load('google.com', function (response, status, xhr) {
-    //        if (status == "error") {
-    //            var msg = "Sorry but there was an error: ";
-    //            $("#feedback-error").html(msg + xhr.status + " " + xhr.statusText);
-    //        }
-    //    });
+    var widget = $("#feedback-widget");
 
-    $("#feedback-widget").load('/Feedback/Create/00000000-0000-0000-0000-000000000001', function (response, status, xhr) {
-        if (status == "error") {
-            var msg = "Sorry but there was an error: ";
-            $("#feedback-error").html(msg + xhr.status + " " + xhr.statusText);
-        }
-    });
+
 
 
 
@@ -66,19 +60,30 @@ $(document).ready(function () {
     var resizeOverlay = function () {
         overlay.height($(window).height());
         overlay.width($(window).width());
+
+        $("#feedback-widget")
     };
 
     var showOverlay = function () {
-        $("body").addClass('feedback-page');
-
+        $("#feedback-widget-contents").load('/Feedback/Create/00000000-0000-0000-0000-000000000001',
+        function (response, status, xhr) {
+            if (status == "error") {
+                $("#feedback-widget-contents").addClass("feedback-error")
+                .html("Беда: " + xhr.status + " " + xhr.statusText);
+            }
+        });
 
         resizeOverlay();
         overlay.fadeIn(speed);
+        $("#feedback-widget").show();//.attr('display', 'block');
+
+        //        $("#feedback-widget").top($(window).height());
+        //        $("#feedback-widget").left($(window).width()/2);
     };
 
     var hideOverlay = function () {
         overlay.fadeOut(speed);
-        $("body").removeClass('feedback-page');
+        $("#feedback-widget").hide();
     };
 
     $(window).bind('resize', resizeOverlay);
