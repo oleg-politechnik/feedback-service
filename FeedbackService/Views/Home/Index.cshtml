@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Feedback Service - Домашняя";
 }
 
 <h2>Добро пожаловать</h2>
@@ -11,6 +11,6 @@
 }
 else
 {
-    <text>ваших сайтов.</text>
+    @Html.ActionLink("наших сайтов", "Sites", "Home")<text>.</text>
 }
 </p>

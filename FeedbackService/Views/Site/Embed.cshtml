@@ -1,0 +1,27 @@
+﻿@model FeedbackService.Models.Site
+@{
+    ViewBag.Title = "Добавление виджета на сайт";
+}
+<h2>
+    Как встроить виджет в @Model.Url?</h2>
+<fieldset>
+    <legend>Это просто:</legend>
+    <div class="display-label">
+        1. Добавьте этот код на страницу:</div>
+    <div class="display-field details-box">
+
+        @Html.Partial("_FeedbackLinkPartial", new ViewDataDictionary() { { "SiteId", Model.SiteId } }).ToString()
+        @Html.Encode("<script src='http://" + Model.Url + "/Scripts/Widget-default.js'type='text/javascript'></script>")
+    </div>
+    <div class="display-label">
+        2. <a href="~/Scripts/Widget-default.js">Скачайте</a> файл скрипта
+         и положите его в "@Model.Url/Scripts/Widget-default.js"</div>
+    <div class="display-label">
+        3. <a href="~/Content/Widget-default.css">Скачайте</a> файл CSS
+         и положите его в "@Model.Url/Content/Widget-default.css"</div>
+    <div class="display-label">
+        4. Profit!</div>
+</fieldset>
+<p>
+    @Html.ActionLink("Назад к отзывам", "Details", new { id = Model.SiteId })
+</p>

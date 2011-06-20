@@ -1,8 +1,20 @@
 ﻿@model FeedbackService.Models.Feedback
 
 @{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+@{
     ViewBag.Title = "Оставить отзыв для " + Model.SiteUrl;
 }
+
+<html>
+<head>
+    <title>ViewBag.Title</title>
+</head>
+<body>
 
 <h2>@ViewBag.Title</h2>
 
@@ -52,3 +64,5 @@
     <div>
         @Html.ActionLink("Все отзывы для этого сайта", "Details", "Site", new { id = Model.SiteId }, null)
     </div>
+</body>
+</html>

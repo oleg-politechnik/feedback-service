@@ -1,0 +1,30 @@
+﻿@model FeedbackService.Models.Feedback
+@using FeedbackService.Models
+@{
+    Layout = null;
+}
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+<channel>
+<title>Feedback Service - комментарии для @Model.Title</title>
+<link>@Html.ActionLink("Details", "Feedback", new { id = Model.FeedbackId })</link>
+<description>Комментарии для отзыва @Model.Title</description>
+@*<lastBuildDate>@Model.Comments.OrderBy(c => c.Timestamp).First().Timestamp.ToUniversalTime().ToString("r")</lastBuildDate>*@
+<language>ru-ru</language>
+@foreach (Comment c in Model.Comments)
+{
+    <item>
+    <title>
+    @if (c.ClientIdRef != new Guid("00000000-0000-0000-0000-000000000000"))
+    { <text>Официальный ответ</text> } 
+    else
+    { <text>Обычный комментарий</text> }
+    </title>
+    <link>@Html.ActionLink("Details", "Feedback", new { id = Model.FeedbackId })</link>
+    <guid>@c.CommentId</guid>
+    <pubDate>@c.Timestamp.ToUniversalTime()</pubDate>
+    <description>@c.Message</description>
+    </item>
+}
+</channel>
+</rss>

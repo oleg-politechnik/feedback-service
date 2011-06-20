@@ -1,3 +1,1 @@
-﻿@model FeedbackService.Models.Feedback
-           
-@Html.ActionLink("Оставьте о нас отзыв", "Create", "Feedback", new { SiteId = Model.SiteId }, new { id = "feedbackLink" })
+﻿@Html.ActionLink("Оставьте о нас отзыв", "Create", "Feedback", new { id = ViewData["SiteId"]@*, returnUrl = ViewData["ReturnUrl"] ViewContext.HttpContext.Request.Url*@ }, new { id = "feedback-link" })

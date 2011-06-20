@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "Голосование";
+}
+
+<h2>@ViewBag.Message</h2>
+
+@if (ViewBag.ReturnUrl != null)
+{
+    <a href = "@ViewBag.ReturnUrl">Назад</a>
+}

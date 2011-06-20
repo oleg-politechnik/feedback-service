@@ -11,33 +11,33 @@ namespace FeedbackService.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Текущий пароль")]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
+        [StringLength(100, ErrorMessage = "{0} требуется длиной не меньше {2} символов.", MinimumLength = 1)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Новый пароль")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Новый пароль еще раз")]
+        [Compare("NewPassword", ErrorMessage = "Пароли не совпадают.")]
         public string ConfirmPassword { get; set; }
     }
 
     public class LogOnModel
     {
         [Required]
-        [Display(Name = "Логин")]
+        [Display(Name = "Ваш логин")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Пароль")]
+        [Display(Name = "Ваш пароль")]
         public string Password { get; set; }
 
-        [Display(Name = "Запомнить меня")]
+        [Display(Name = "Запомнить вас?")]
         public bool RememberMe { get; set; }
     }
 
@@ -57,7 +57,7 @@ namespace FeedbackService.Models
         public string Phone { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
+        [StringLength(100, ErrorMessage = "{0} требуется длиной не меньше {2} символов.", MinimumLength = 1)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
@@ -83,5 +83,6 @@ namespace FeedbackService.Models
         public string Email { get; set; }
 
         public virtual ICollection<Site> Sites { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

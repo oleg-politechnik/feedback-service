@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FeedbackService.Models;
 //using FeedbackService.Helpers;
 
 namespace FeedbackService.Helpers
@@ -20,6 +21,11 @@ namespace FeedbackService.Helpers
             {
                 return input.Substring(0, length) + "...";
             }
+        }
+
+        public static bool IsCurrentUserOwnerOf(Site site)
+        {
+            return (site.ClientId == Helper.UserGuid());
         }
     }
 }

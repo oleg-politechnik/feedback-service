@@ -6,29 +6,34 @@ using FeedbackService.Models;
 
 namespace FeedbackService.Queries
 {
-    public static class ClientQueries
-    {
-        public static Client ClientForCurrentUser(this IQueryable<Client> clients)
-        {
-            Guid userGuid = Helper.UserGuid();
-            return clients.Single(c => c.ClientId == userGuid);
-        }
-    }
-
-    //public static class SiteQueries
-    //{
-    //    public static IEnumerable<FeedbackType> FeedbackTypes(this Site site)
-    //    {
-    //        return site 
-    //    }
-    //}
-
     public static class FeedbackQueries
     {
-        public static IEnumerable<Feedback> TopByRating(this IQueryable<Feedback> feedbacks, int top)
+        //public static IEnumerable<Feedback> TopByRating(this IQueryable<Feedback> feedbacks, int top)
+        //{
+        //    return feedbacks.OrderByDescending(r => r.Rating)
+        //        .Take(top).ToList();
+        //}
+
+        
+
+        public static Feedback SetOwnerFlag(this Feedback feedback)
         {
-            return feedbacks.OrderByDescending(r => r.NumberRatesUp)
-                .Take(top).ToList();
+            if (feedback.SiteId == null)
+                return feedback;
+
+            FeedbackServiceContext db = new FeedbackServiceContext();
+
+            feedback.isCurrentUserOwner = (db.Sites.Find(feedback.SiteId).ClientId == Helper.UserGuid());
+            return feedback;
+        }
+
+        public static IQueryable<Feedback> SetOwnerFlag(this IQueryable<Feedback> feedbacks)
+        {
+            foreach (Feedback feedback in feedbacks)
+            {
+                feedback.SetOwnerFlag();
+            }
+            return feedbacks;
         }
     }   
 }
