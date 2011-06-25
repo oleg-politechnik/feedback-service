@@ -31,22 +31,52 @@ namespace FeedbackService.Models
             if (votes.Count() == 0)
             {
                 feedback.Votes.Add(new FeedbackVote { IpAddress = ip });
-                //if (IsUp)
-                    feedback.Rating++;
-                //else
-                //    feedback.Rating--;
+                feedback.Rating++;
                 return true;
             }
-            else// if (votes.First().IsUp == IsUp)
+            else
             {
                 this.FeedbackVotes.Remove(votes.First());
-                //if (IsUp)
-                    feedback.Rating--;
-                //else
-                //    feedback.Rating++;
+                feedback.Rating--;
                 return false;
             }
         }
+
+        public Client ClientForCurrentUser()
+        {
+            Guid userGuid = Helper.UserGuid();
+            return Clients.Single(c => c.ClientId == userGuid);
+        }
+
+        //public bool IsRootForSite(Guid id)
+        //{
+        //    if (Helper.IsRoot())
+        //        return Sites.First(s => s.SiteId == id);
+
+        //    return Sites.First(s => s.SiteId == id & s.ClientId == Helper.UserGuid());
+        //}
+
+        //public bool IsRootForSite(Guid id)
+        //{
+        //    Feedback feedback = Feedbacks.First(s => s.FeedbackId == id);
+
+        //    if (Helper.IsRoot() || (ClientForCurrentUser().Sites.Where(s => s.SiteId == feedback.SiteId).Count() == 1)
+        //        || (feedback == null))
+        //        return feedback;
+
+        //    return null;
+        //}
+
+        //public Comment FindCommentForEditOrDelete(Guid id)
+        //{
+        //    Feedback feedback = Feedbacks.First(s => s.FeedbackId == id);
+
+        //    if (Helper.IsRoot() || (ClientForCurrentUser().Sites.Where(s => s.SiteId == feedback.SiteId).Count() == 1)
+        //        || (feedback == null))
+        //        return feedback;
+
+        //    return null;
+        //}
 
         //public Client CurrentClient() { return Clients.ClientForCurrentUser(); }
 

@@ -13,10 +13,7 @@ namespace FeedbackService.Controllers
 
         public ActionResult Feedback(Guid id)
         {
-            HttpContext.Response.ContentType = "application/xml";
-
             return View(db.Feedbacks.Find(id));
         }
-
     }
 }

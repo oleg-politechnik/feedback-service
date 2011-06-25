@@ -15,10 +15,7 @@ namespace FeedbackService.Models
         }
 
         [ScaffoldColumn(false)]
-        public int CommentId { get; set; }
-
-        [ScaffoldColumn(false)]
-        public int ReplyToId { get; set; }
+        public Guid CommentId { get; set; }
 
         [ScaffoldColumn(false)]
         public Guid FeedbackId { get; set; }
@@ -32,5 +29,7 @@ namespace FeedbackService.Models
 
         [ScaffoldColumn(false)]
         public DateTime Timestamp { get; set; }
+
+        public virtual Feedback Feedback { get; set; }
     }
 }

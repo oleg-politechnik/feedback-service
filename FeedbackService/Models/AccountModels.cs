@@ -39,6 +39,9 @@ namespace FeedbackService.Models
 
         [Display(Name = "Запомнить вас?")]
         public bool RememberMe { get; set; }
+
+        [NotMapped]
+        public string returnUrl { get; set; }
     }
 
     public class RegisterModel
@@ -83,6 +86,5 @@ namespace FeedbackService.Models
         public string Email { get; set; }
 
         public virtual ICollection<Site> Sites { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

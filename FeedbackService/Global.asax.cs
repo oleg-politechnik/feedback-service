@@ -17,8 +17,9 @@ namespace FeedbackService
 
     public static class Constants
     {
-        public static string RootRoleName = "admin";
+        //public static string RootRoleName = "admin";
         public static string ThisSiteGuid = "00000000-0000-0000-0000-000000000001";//Dns.GetHostName();
+        public static string Error403 = "Ошибка: не хватает прав";
     }
 
     public static class Helper
@@ -27,13 +28,18 @@ namespace FeedbackService
         {
             MembershipUser user = Membership.GetUser();
             if (user == null)
-                return new Guid("00000000-0000-0000-0000-000000000000");
+                return Guid.Empty;
 
             return new Guid(Membership.GetUser().ProviderUserKey.ToString());
         }
 
         public static string CaptchaPublicKey = "6LfmOMUSAAAAAKld6kjnViZMtF-2qWrb_SO5-pDa";
         public static string CaptchaPrivateKey = "6LfmOMUSAAAAAABR2AqhSikXKQhpUU81tfma6hE1";
+
+        public static bool IsRoot()
+        {
+            return (Roles.IsUserInRole("admin"));
+        }
     }
 
     public class MvcApplication : System.Web.HttpApplication
@@ -93,6 +99,12 @@ namespace FeedbackService
         protected override void Seed(FeedbackServiceContext context)
         {
             base.Seed(context);
+            try
+            {
+                Membership.CreateUser("sa", "1", "root@feedbackservice.rtf.ustu.ru");
+            }
+            catch
+            { }
 
             foreach (MembershipUser user in Membership.GetAllUsers())
             {
@@ -103,6 +115,21 @@ namespace FeedbackService
                     Email = user.Email
                 });
             }
+
+            context.FeedbackTypes.Add(new FeedbackType { TypeName = "Пожелание" });
+            context.FeedbackTypes.Add(new FeedbackType { TypeName = "Вопрос" });
+            context.FeedbackTypes.Add(new FeedbackType { TypeName = "Отчет об ошибке" });
+            context.FeedbackTypes.Add(new FeedbackType { TypeName = "Благодарность" });
+
+            context.SaveChanges();
+
+            Site site = new Site();
+            site.Url = "feedbackservice.rtf.ustu.ru";
+            site.Description = "Это сайт, на котором вы сейчас и находитесь.";
+            site.SiteId = new Guid(Constants.ThisSiteGuid);
+            site.ClientId = context.Clients.Single(c => c.ClientName == "sa").ClientId;
+            context.Sites.Add(site);
+
             context.SaveChanges();
         }
     }

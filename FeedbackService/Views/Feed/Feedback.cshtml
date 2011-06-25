@@ -7,22 +7,20 @@
 <rss version="2.0">
 <channel>
 <title>Feedback Service - комментарии для @Model.Title</title>
-<link>@Html.ActionLink("Details", "Feedback", new { id = Model.FeedbackId })</link>
+<link>http://@Request.Url.Authority@Url.Action("Details", "Feedback", new { id = Model.FeedbackId })</link>
 <description>Комментарии для отзыва @Model.Title</description>
-@*<lastBuildDate>@Model.Comments.OrderBy(c => c.Timestamp).First().Timestamp.ToUniversalTime().ToString("r")</lastBuildDate>*@
 <language>ru-ru</language>
 @foreach (Comment c in Model.Comments)
 {
     <item>
     <title>
-    @if (c.ClientIdRef != new Guid("00000000-0000-0000-0000-000000000000"))
-    { <text>Официальный ответ</text> } 
+    @if (c.ClientIdRef != Guid.Empty)
+    { <text>Официальный ответ</text> }
     else
     { <text>Обычный комментарий</text> }
     </title>
-    <link>@Html.ActionLink("Details", "Feedback", new { id = Model.FeedbackId })</link>
-    <guid>@c.CommentId</guid>
-    <pubDate>@c.Timestamp.ToUniversalTime()</pubDate>
+    <guid>http://@Request.Url.Authority@Url.Action("Details", "Feedback", new { id = Model.FeedbackId })</guid>
+    <pubDate>@c.Timestamp.ToUniversalTime().ToString("r")</pubDate>
     <description>@c.Message</description>
     </item>
 }

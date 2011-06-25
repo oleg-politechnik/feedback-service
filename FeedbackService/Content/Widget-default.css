@@ -12,6 +12,9 @@
     z-index: 999;
 }
 
+
+
+
 .feedback-error
 {
     color: red;
@@ -29,14 +32,17 @@
 
     -moz-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
     
-    padding: 2em;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    
+    padding: 1em;
     position: absolute; /*fixed*/
     top: 100px;
     margin-left:30%;
     
     
    
-    display: none;
+    display: inline;
 
 
     overflow: auto;

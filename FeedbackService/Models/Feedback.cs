@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace FeedbackService.Models
 {
-    public class Feedback /*: IValidatableObject*/
+    public class Feedback
     {
         public Feedback()
         {
@@ -43,9 +43,6 @@ namespace FeedbackService.Models
         [ScaffoldColumn(false)]
         public int Rating { get; set; }
 
-        [ScaffoldColumn(false)]
-        public bool Accepted { get; set; }
-
         public virtual Site Site { get; set; }
         public virtual FeedbackType FeedbackType { get; set; }
         public virtual ICollection<FeedbackVote> Votes { get; set; }
@@ -62,31 +59,12 @@ namespace FeedbackService.Models
 
         [NotMapped]
         public bool isCurrentUserOwner { get; set; }
-
-        //public IEnumerable<ValidationResult>
-        //    Validate(ValidationContext validationContext)
-        //{
-        //    var field = new[] { "voteip" };
-        //    //if voteIP
-        //    yield return new ValidationResult("Achtung", field);
-        //}
-
-        //+moderation, e-mail validation
-    }
-
-    public class FeedbackStatus
-    {
-        public int FeedbackStatusId { get; set; }
-        public string StatusName { get; set; }
     }
 
     public class FeedbackVote
     {
-        public FeedbackVote() { IsUp = false; }
-
         public int FeedbackVoteId { get; set; }
         public Guid FeedbackId { get; set; }
         public string IpAddress { get; set; }
-        public bool IsUp { get; set; }
     }
 }

@@ -1,7 +1,24 @@
-﻿@if(Request.IsAuthenticated) {
-    <text>Добро пожаловать, <strong>@User.Identity.Name</strong>!
-    [ @Html.ActionLink("Выйти", "LogOff", "Account") ]</text>
+﻿@using FeedbackService
+
+@if (Request.IsAuthenticated)
+{
+    <text>Добро пожаловать, <strong>@Html.ActionLink(User.Identity.Name, "ChangePassword", "Account")</strong>!</text>
+    
+    if (Helper.IsRoot())
+    { <text>(Админ)</text> }
+    
+     <text>[ @Html.ActionLink("Выйти", "LogOff", "Account", new { returnUrl = Url.Encode(Request.Url.PathAndQuery) }, null)
+    ]</text>
 }
-else {
+else
+{
+    if ((ViewContext.RouteData.Values["controller"].ToString().ToLower() == "account") &&
+        (ViewContext.RouteData.Values["action"].ToString().ToLower() == "logon"))
+    {
     @:[ @Html.ActionLink("Войти", "LogOn", "Account") ]
-}
+    }
+    else
+    {
+    @:[ @Html.ActionLink("Войти", "LogOn", "Account", new { returnUrl = Url.Encode(Request.Url.PathAndQuery) }, null) ]    
+    }
+} 

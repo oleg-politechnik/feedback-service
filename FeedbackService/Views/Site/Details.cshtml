@@ -6,7 +6,6 @@
     @Html.ActionLink("Назад к списку сайтов", "Index")
 </p>*@
 <h2>@ViewBag.Title</h2>
-
 <fieldset>
     <legend>@Model.Url</legend>
     <div class="display-field">
@@ -14,7 +13,8 @@
     </div>
     @if (Model.isCurrentUserOwner)
     {
-        @Html.ActionLink("Встроить код в свой сайт", "Embed", new { id = Model.SiteId }); <text> | </text>
+        @Html.ActionLink("Встроить код в свой сайт", "Embed", new { id = Model.SiteId }); <text>
+        | </text>
         @Html.ActionLink("Редактировать", "Edit", new { id = Model.SiteId }); <text> | </text>
         @Html.ActionLink("Удалить", "Delete", new { id = Model.SiteId });
     }
@@ -35,23 +35,21 @@
     {
         <tr>
             <td>
-                <strong>@Html.DisplayFor(modelItem => item.Rating) </strong>
-                (@Html.ActionLink("+", "Vote", "Feedback", new { id = item.FeedbackId, isUp = true, returnUrl = Request.Url }, null))
+                <strong>@Html.DisplayFor(modelItem => item.Rating) </strong>(@Html.ActionLink("+", "Vote", "Feedback", new { id = item.FeedbackId, isUp = true, returnUrl = Request.Url }, null))
             </td>
             <td>
                 <div>
-                @Html.ActionLink(item.Title, "Details", "Feedback", new { id = item.FeedbackId }, null)
+                    @Html.ActionLink(item.Title, "Details", "Feedback", new { id = item.FeedbackId }, null)
                 </div>
                 <div>
-                @Html.DisplayFor(modelItem => item.Message)
+                    @Html.DisplayFor(modelItem => item.Message)
                 </div>
-
                 <div>
-                @Html.DisplayFor(modelItem => item.Proposed) 
-                @if (Model.isCurrentUserOwner)
-                {
-                    <text> | </text> @Html.ActionLink("Править", "Edit", "Feedback", new { id = item.FeedbackId }, null)
-                }
+                    @Html.DisplayFor(modelItem => item.Proposed)
+                    @if (Model.isCurrentUserOwner)
+                    {
+                        <text> | </text> @Html.ActionLink("Удалить", "Delete", "Feedback", new { id = item.FeedbackId }, null)
+                    }
                 </div>
             </td>
         </tr>

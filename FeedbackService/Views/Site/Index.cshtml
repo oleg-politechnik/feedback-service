@@ -11,12 +11,19 @@
             @Html.DisplayFor(modelItem => item.Description)
         </div>
         <div class="display-label">@Html.ActionLink("Отзывы", "Details", new { id = item.SiteId })
+            @if (item.Feedbacks != null)
+            {
+                <text>(</text>@item.Feedbacks.Count();<text>)</text>
+            }
+            else
+            {
+                <text>(0)</text>
+            }
             @if (item.isCurrentUserOwner)
             {
                 <text> | </text>
                 @Html.ActionLink("Встроить код в свой сайт", "Embed", new { id = item.SiteId }); <text>
                 | </text>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.SiteId }); <text> | </text>
                 @Html.ActionLink("Удалить", "Delete", new { id = item.SiteId });
             }
         </div>

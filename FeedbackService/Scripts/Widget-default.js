@@ -23,6 +23,7 @@ $(document).ready(function () {
     var speed = 200;
     var overlay = $("#feedback-overlay");
     var widget = $("#feedback-widget");
+    widget.hide();
 
 
 
@@ -58,7 +59,8 @@ $(document).ready(function () {
 
 
     var resizeOverlay = function () {
-        overlay.height($(window).height());
+
+        overlay.height(Math.max($(window).height(), $(widget).height() + 600));
         overlay.width($(window).width());
 
         $("#feedback-widget")
@@ -75,7 +77,8 @@ $(document).ready(function () {
 
         resizeOverlay();
         overlay.fadeIn(speed);
-        $("#feedback-widget").show();//.attr('display', 'block');
+        widget.css('top', $('#feedback-badge').css('top'));
+        widget.show(); //.attr('display', 'block');
 
         //        $("#feedback-widget").top($(window).height());
         //        $("#feedback-widget").left($(window).width()/2);

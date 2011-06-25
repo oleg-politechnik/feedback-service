@@ -17,7 +17,7 @@ namespace FeedbackService.Controllers
         //
         // GET: /Account/LogOn
 
-        public ActionResult LogOn()
+        public ActionResult LogOn(string returnUrl)
         {
             return View();
         }
@@ -28,6 +28,8 @@ namespace FeedbackService.Controllers
         [HttpPost]
         public ActionResult LogOn(LogOnModel model, string returnUrl)
         {
+            returnUrl = HttpUtility.UrlDecode(returnUrl);
+
             if (ModelState.IsValid)
             {
                 if (Membership.ValidateUser(model.UserName, model.Password))
@@ -40,7 +42,7 @@ namespace FeedbackService.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index", "Site");
                     }
                 }
                 else
@@ -56,11 +58,21 @@ namespace FeedbackService.Controllers
         //
         // GET: /Account/LogOff
 
-        public ActionResult LogOff()
+        public ActionResult LogOff(string returnUrl)
         {
             FormsAuthentication.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            returnUrl = HttpUtility.UrlDecode(returnUrl);
+
+            if ((returnUrl != null) && Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
+                && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         //
@@ -74,7 +86,7 @@ namespace FeedbackService.Controllers
         //
         // POST: /Account/Register
 
-        [CaptchaValidator]
+        //[CaptchaValidator]
         [HttpPost]
         public ActionResult Register(RegisterModel model)
         {
@@ -82,7 +94,7 @@ namespace FeedbackService.Controllers
             {
                 // Attempt to register the user
                 MembershipCreateStatus createStatus;
-                MembershipUser user = 
+                MembershipUser user =
                     Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
 
                 if (createStatus == MembershipCreateStatus.Success)
@@ -161,12 +173,6 @@ namespace FeedbackService.Controllers
         // GET: /Account/ChangePasswordSuccess
 
         public ActionResult ChangePasswordSuccess()
-        {
-            return View();
-        }
-
-        [Authorize]
-        public ActionResult Index()
         {
             return View();
         }

@@ -17,40 +17,15 @@ namespace FeedbackService.Controllers
         public ActionResult All()
         {
             ViewBag.Title = "Все сайты";
-
             return View("Index", db.Sites.SetOwnerFlag());
         }
-
-        //
-        // GET: /Site/
         
         [Authorize]
         public ViewResult Index()
         {
-            var g = new Guid(Constants.ThisSiteGuid);
-            if (db.Sites.Where(s => s.SiteId == g).Count() == 0)
-            {
-                Site site = new Site();
-                site.Url = "feedbackservice.rtf.ustu.ru";
-                site.Description = "Это сайт, на котором вы сейчас и находитесь.";
-                site.SiteId = g;
-                db.Clients.ClientForCurrentUser().Sites.Add(site);
-
-                db.FeedbackTypes.Add(new FeedbackType { SiteId = site.SiteId, TypeName = "Пожелание" });
-                db.FeedbackTypes.Add(new FeedbackType { SiteId = site.SiteId, TypeName = "Вопрос" });
-                db.FeedbackTypes.Add(new FeedbackType { SiteId = site.SiteId, TypeName = "Отчет об ошибке" });
-                db.FeedbackTypes.Add(new FeedbackType { SiteId = site.SiteId, TypeName = "Благодарность" });
-
-                db.SaveChanges();
-            }
-
             ViewBag.Title = "Ваши сайты";
-
-            return View(db.Clients.ClientForCurrentUser().Sites.SetOwnerFlag());
+            return View(db.ClientForCurrentUser().Sites.SetOwnerFlag());
         }
-
-        //
-        // GET: /Site/Details/5
 
         public ViewResult Details(Guid id)
         {
@@ -65,9 +40,6 @@ namespace FeedbackService.Controllers
             return View(site);
         }
 
-        //
-        // GET: /Site/Create
-
         [Authorize]
         public ActionResult Create()
         {
@@ -76,63 +48,61 @@ namespace FeedbackService.Controllers
             return View(site);
         }
 
-        //
-        // POST: /Site/Create
-
         [Authorize]
         [HttpPost]
         public ActionResult Create(Site site)
         {
-            
             if (ModelState.IsValid)
             {
-                db.Clients.ClientForCurrentUser().Sites.Add(site);
-
-                db.FeedbackTypes.Add(new FeedbackType { SiteId = site.SiteId, TypeName = "Пожелание" });
-                db.FeedbackTypes.Add(new FeedbackType { SiteId = site.SiteId, TypeName = "Вопрос" });
-                db.FeedbackTypes.Add(new FeedbackType { SiteId = site.SiteId, TypeName = "Отчет об ошибке" });
-                db.FeedbackTypes.Add(new FeedbackType { SiteId = site.SiteId, TypeName = "Благодарность" });
+                db.ClientForCurrentUser().Sites.Add(site);
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
-
             return View(site);
         }
-
-        //
-        // GET: /Site/Edit/5
 
         [Authorize]
         public ActionResult Edit(Guid id)
         {
-            Site site = db.Sites.Find(id);
+            Site site = db.Sites.Where(s => s.SiteId == id).First().SetOwnerFlag();
+            if (!site.isCurrentUserOwner)
+            {
+                throw new HttpException(403, Constants.Error403);
+            }
+
             return View(site);
         }
-
-        //
-        // POST: /Site/Edit/5
 
         [Authorize]
         [HttpPost]
         public ActionResult Edit(Site site)
         {
+            site.ClientId = db.ClientForCurrentUser().ClientId;
+            site.SetOwnerFlag();
+            if (!site.isCurrentUserOwner)
+            {
+                throw new HttpException(403, Constants.Error403);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(site).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = site.SiteId });
             }
             return View(site);
         }
 
-        //
-        // GET: /Site/Delete/5
-
         [Authorize]
         public ActionResult Delete(Guid id)
         {
-            Site site = db.Sites.Find(id);
+            Site site = db.Sites.Where(s => s.SiteId == id).First().SetOwnerFlag();
+            if (!site.isCurrentUserOwner)
+            {
+                throw new HttpException(403, Constants.Error403);
+            }
+
             return View(site);
         }
 
@@ -143,7 +113,12 @@ namespace FeedbackService.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Site site = db.Sites.Find(id);
+            Site site = db.Sites.Where(s => s.SiteId == id).First().SetOwnerFlag();
+            if (!site.isCurrentUserOwner)
+            {
+                throw new HttpException(403, Constants.Error403);
+            }
+
             db.Sites.Remove(site);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -154,19 +129,5 @@ namespace FeedbackService.Controllers
             db.Dispose();
             base.Dispose(disposing);
         }
-
-        //===========================================//
-
-        [ChildActionOnly]
-        public ActionResult PartialSiteBox(Site site)
-        {
-            return View(site.SetOwnerFlag());
-        }
-
-        //[ChildActionOnly]
-        //public ActionResult PartialSiteList(IEnumerable<Site> sites)
-        //{
-        //    return View(sites.SetOwnerFlag());
-        //}
     }
 }

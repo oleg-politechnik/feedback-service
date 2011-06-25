@@ -23,7 +23,7 @@ namespace FeedbackService.Queries
 
             FeedbackServiceContext db = new FeedbackServiceContext();
 
-            feedback.isCurrentUserOwner = (db.Sites.Find(feedback.SiteId).ClientId == Helper.UserGuid());
+            feedback.isCurrentUserOwner = ((db.Sites.Find(feedback.SiteId).ClientId == Helper.UserGuid()) || Helper.IsRoot());
             return feedback;
         }
 
