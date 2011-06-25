@@ -1,0 +1,21 @@
+﻿@model FeedbackService.Models.Comment
+
+@{
+    ViewBag.Title = "Удалить комментарий";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Правда хотите удалить этот чудесный комментарий?</h3>
+<fieldset>
+    <legend>Сообщение</legend>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Message)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Вернуться к комментариям", "Details", "Feedback", new { id = Model.FeedbackId }, null)
+    </p>
+}
