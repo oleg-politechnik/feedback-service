@@ -19,6 +19,8 @@
         <fieldset>
             <legend>Кто вы?</legend>
 
+            @Html.HiddenFor(m => m.returnUrl)
+
             <div class="editor-label">
                 @Html.LabelFor(m => m.UserName)
             </div>

@@ -16,21 +16,6 @@ namespace FeedbackService.Controllers
     {
         private FeedbackServiceContext db = new FeedbackServiceContext();
 
-        //
-        // GET: /Feedback/
-
-        //public ActionResult Index()
-        //{
-            //return RedirectToAction("Index
-            //ViewBag.ip = HttpContext.Request.UserHostAddress;
-
-            //var feedbacks = db.Feedbacks.Include(f => f.Site);
-            //return View(feedbacks.ToList());
-        //}
-
-        //
-        // GET: /Feedback/Details/5
-
         public ViewResult Details(Guid id)
         {
             Feedback feedback = db.Feedbacks.Find(id);
@@ -39,9 +24,6 @@ namespace FeedbackService.Controllers
 
             return View(feedback.SetOwnerFlag());
         }
-
-        //
-        // GET: /Feedback/Create
 
         public ActionResult Create(Guid id, string ReturnUrl)
         {
@@ -60,24 +42,6 @@ namespace FeedbackService.Controllers
 
             return View(feedback);
         }
-        
-        //
-        // AJAX GET: /Feedback/Create
-        
-        //[AcceptAjaxAttribute]
-        //public ActionResult AjaxCreate(/*Guid siteid*/)
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public ActionResult Create(Feedback feedback)
-        //{
-        //    return View(feedback);
-        //}
-
-        //
-        // POST: /Feedback/Create
 
         [HttpPost]
         public ActionResult Create(Feedback feedback, string ReturnUrl)
@@ -123,52 +87,66 @@ namespace FeedbackService.Controllers
 
             return View();
         }
-        
-        //
-        // GET: /Feedback/Edit/5
- 
+
+        [Authorize]
         public ActionResult Edit(Guid id)
         {
-            Feedback feedback = db.Feedbacks.Find(id);
+            Feedback feedback = db.Feedbacks.Find(id).SetOwnerFlag();
+            if (!feedback.isCurrentUserOwner)
+            {
+                throw new HttpException(403, Constants.Error403);
+            }
+
             ViewBag.SiteId = new SelectList(db.Sites, "SiteId", "Url", feedback.SiteId);
             return View(feedback);
         }
 
-        //
-        // POST: /Feedback/Edit/5
-
+        [Authorize]
         [HttpPost]
         public ActionResult Edit(Feedback feedback)
         {
+            feedback.SetOwnerFlag();
+            if (!feedback.isCurrentUserOwner)
+            {
+                throw new HttpException(403, Constants.Error403);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(feedback).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Feedback", new { id = feedback.FeedbackId });
             }
             ViewBag.SiteId = new SelectList(db.Sites, "SiteId", "Url", feedback.SiteId);
             return View(feedback);
         }
 
-        //
-        // GET: /Feedback/Delete/5
- 
+        [Authorize]
         public ActionResult Delete(Guid id)
         {
-            Feedback feedback = db.Feedbacks.Find(id);
+            Feedback feedback = db.Feedbacks.Find(id).SetOwnerFlag();
+            if (!feedback.isCurrentUserOwner)
+            {
+                throw new HttpException(403, Constants.Error403);
+            }
+
             return View(feedback);
         }
 
-        //
-        // POST: /Feedback/Delete/5
-
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(Guid id)
         {            
-            Feedback feedback = db.Feedbacks.Find(id);
+            Feedback feedback = db.Feedbacks.Find(id).SetOwnerFlag();
+            Guid retId = feedback.SiteId;
+            if (!feedback.isCurrentUserOwner)
+            {
+                throw new HttpException(403, Constants.Error403);
+            }
+
             db.Feedbacks.Remove(feedback);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Site", new { id = retId });
         }
 
         protected override void Dispose(bool disposing)

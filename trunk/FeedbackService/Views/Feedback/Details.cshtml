@@ -32,6 +32,7 @@
     @if (Model.isCurrentUserOwner)
     {
         <text> | </text> @Html.ActionLink("Править", "Edit", "Feedback", new { id = Model.FeedbackId }, null)
+        <text> | </text> @Html.ActionLink("Удалить", "Delete", "Feedback", new { id = Model.FeedbackId }, null)
     }
 </div>
 <h2>
@@ -39,7 +40,7 @@
 <p>
     @Html.ActionLink("Комментировать", "Create", "Comment", new { id = Model.FeedbackId }, null)
 </p>
-@foreach (var item in Model.Comments)
+@foreach (var item in Model.Comments.OrderBy(c => c.Timestamp))
 {
     <hr />
     
@@ -55,7 +56,7 @@
         @Html.ActionLink("Ответить", "Create", "Comment", new { id = Model.FeedbackId, replyId = item.CommentId }, null)
         @if (Model.isCurrentUserOwner)
         { <text> | </text>
-            @Html.ActionLink("Удалить", "Delete", "Comment", new { id = item.CommentId })
+            @Html.ActionLink("Удалить", "Delete", "Comment", new { id = item.CommentId }, null)
         }
     </div>
 }

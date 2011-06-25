@@ -11,7 +11,7 @@ namespace FeedbackService.Queries
     {
         public static Site SetOwnerFlag(this Site site)
         {
-            site.isCurrentUserOwner = (site.ClientId == Helper.UserGuid());
+            site.isCurrentUserOwner = ((site.ClientId == Helper.UserGuid()) || Helper.IsRoot());
             return site;
         }
 

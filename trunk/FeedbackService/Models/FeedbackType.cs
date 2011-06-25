@@ -11,9 +11,6 @@ namespace FeedbackService.Models
     public class FeedbackType
     {
         public int FeedbackTypeId { get; set; }
-        public Guid SiteId { get; set; }
-
-        [Required]
         public string TypeName { get; set; }
     }
 }
